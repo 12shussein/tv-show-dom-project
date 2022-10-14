@@ -74,7 +74,7 @@ const render = (renderedList) => {
     select.append(option);
   });
 
-  // DISPLAY NUMBER OF MATCHES
+  // display number of total matches out of all the episodes
   let numberOfAllEpisodes = getAllEpisodes().length;
   matches.innerText =
     "Currently showing " +
