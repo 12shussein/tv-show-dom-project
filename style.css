@@ -1,5 +1,5 @@
 body{
-  background-color: gold;
+  background-color: rgb(10, 209, 143) ;
 }
 
 #root {
@@ -11,22 +11,31 @@ body{
   justify-content: center;
 }
 
-.fieldset {
+fieldset {
   margin: 20px;
-  color: white;
+  color: rgb(255, 255, 255);
   font-weight: bold;
   background-color: rgba(6, 148, 173, 0.788);
   border-radius: 25px;
   border: 2px solid white;
 }
 
-.input {
+input {
   margin: 5px;
   border-radius: 5px;
 }
 
-.label {
+label {
   margin-right: 0.125rem;
+}
+
+.epDiv {
+  display: inline-block;
+  background-color: rgba(106, 9, 197, 0.788);
+  border-radius: 25px;
+  text-align: center;
+  border: 2px solid white;
+  box-shadow: 5px 5px 5px 5px rgb(117, 115, 109);
 }
 
 .epTitle {

@@ -1,17 +1,14 @@
-//You can edit ALL of the code here
-// main common elements
+// common elements 
 const rootElem = document.getElementById("root"),
-searchBar = document.getElementById("searchBar"),
-matches = document.getElementById("matches"),
-select = document.getElementById("selectEpisode"),
+  searchBar = document.getElementById("searchBar"),
+  matches = document.getElementById("matches"),
+  select = document.getElementById("selectEpisode");
 let EPISODES;
 
-
-// returning data from show.js with a promise
+// returning data from episode.js with a promise
 const getAllEpisodes = () => {
   return EPISODES;
 };
-
 // fetch API called Receiving data from website
 function setup() {
   fetch("https://api.tvmaze.com/shows/82/episodes")
@@ -21,30 +18,29 @@ function setup() {
       render(getAllEpisodes());
     })
     .catch((error) => {
-      console.log("No data processed : ", error);
+      console.log("Data hasn't arrive see error: ", error);
     });
 }
-// page creation mentions the amount of episode 
-function CreationPageForEpisodes(episodeList) {
+// page creation mentions the amount of episodes
+function makePageForEpisodes(episodeList) {
   rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 }
 // executes a search for a match between a regular expression and a specified string
 const episodeContainsTerm = (episode, searchTerm) => {
-  const inName = episode.name,
-   const inSynopsis = episode.summary;
-  return searchTerm.test(inName) || searchTerm.test(inSynopsis);
+  const inTitle = episode.name,
+    inDescription = episode.summary;
+  return searchTerm.test(inTitle) || searchTerm.test(inDescription);
 };
-
 // Enables the users to search for the collection of episodes
-const lookWithinData = () => {
+const searchCollection = () => {
   let searchTerm;
   if (!searchBar.value) {
     rootElem.replaceChildren();
-    render(CreationPageForEpisodes());
+    render(getAllEpisodes());
     return;
   } else {
     searchTerm = new RegExp(searchBar.value, "i");
-    let episodesFound = CreationPageForEpisodes().filter((episode) => {
+    let episodesFound = getAllEpisodes().filter((episode) => {
       return episodeContainsTerm(episode, searchTerm);
     });
     rootElem.replaceChildren();
@@ -52,9 +48,8 @@ const lookWithinData = () => {
     return;
   }
 };
-
 // returns the season and episode number in S01 E01 order
-const minimumTwoDigits = (num) => {
+const minTwoDigits = (num) => {
   if (num < 10) {
     return "0" + num;
   } else {
@@ -63,22 +58,24 @@ const minimumTwoDigits = (num) => {
 };
 
 const episodeCode = (item) => {
-  const S = minimumTwoDigits(item.season),
-  const E = minimumTwoDigits(item.number);
-  return `S${S}E${E}`
-}
+  const S = minTwoDigits(item.season),
+    E = minTwoDigits(item.number);
+  return `S${S}E${E}`;
+};
 
+// allows user to select episode by display the specified HTML code inside the specified HTML element.
 const render = (renderedList) => {
-select.replaceChildren();
-renderedList.forEach((episode) => {
-  let option = document.createElement("option");
-  option.value = episode.id;
-  option.innerText = `${episodeCode(episode)} - ${episode.name}`;
-  select.append(option);
+  select.replaceChildren();
+  renderedList.forEach((episode) => {
+    let option = document.createElement("option");
+    option.value = episode.id;
+    option.innerText = `${episodeCode(episode)} - ${episode.name}`;
+
+    select.append(option);
   });
 
-
- let numberOfAllEpisodes = CreationPageForEpisodes().length;
+  // DISPLAY NUMBER OF MATCHES
+  let numberOfAllEpisodes = getAllEpisodes().length;
   matches.innerText =
     "Currently showing " +
     renderedList.length +
@@ -87,34 +84,30 @@ renderedList.forEach((episode) => {
     " total.";
   console.log(searchBar.value);
 
-  // ITERATE THROUGH COLLECTED DATA
+  // Attempts to go through episode.js
   renderedList.forEach((item) => {
-    // CREATE ELEMENTS
+    // Creation of new elements
     let div = document.createElement("div"),
       title = document.createElement("h1"),
       img = document.createElement("img"),
       description = document.createElement("p");
+      div.setAttribute("id", item.id);
 
-    // FILL WITH CONTENT
+
     title.innerText = `${item.name}\n(${episodeCode(item)})`;
     img.src = item.image.medium;
     description.innerHTML = item.summary;
 
-    // ADD CLASSES
+    // addition of new classes to display box with episode name and number 
     div.classList.add("epDiv");
     title.classList.add("epTitle");
     img.classList.add("epImg");
     description.classList.add("epDescription");
-
-    // ADD ID
-    div.setAttribute("id", item.id);
-
-    // APPEND
     div.append(title, img, description);
     rootElem.append(div);
   });
 };
-
+// allows to be viewed in browser through window.onload 
 const selectEpisode = () => {
   let episode = select.value;
   console.log(episode);
@@ -124,15 +117,4 @@ const selectEpisode = () => {
 window.onload = () => {
   setup();
 };
-
-
-
-
-
-
-
-
-// search event listener
-
-// creation of tv show page for all episodes function
-let 
+// need to add a event listener
