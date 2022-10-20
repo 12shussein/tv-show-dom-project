@@ -1,10 +1,8 @@
 // common elements 
 const rootElem = document.getElementById("root"),
-const showselect = 
   searchBar = document.getElementById("searchBar"),
   matches = document.getElementById("matches"),
   select = document.getElementById("selectEpisode");
-  show = document.getElementById("selectShow")
 let EPISODES;
 
 // returning data from episode.js with a promise
@@ -119,6 +117,4 @@ const selectEpisode = () => {
 window.onload = () => {
   setup();
 };
-
-
 // need to add a event listener
