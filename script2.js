@@ -33,17 +33,15 @@ function setup() {
 
 // fetch API called Receiving data from website
 
-// function setup2() {
-//   fetch("https://api.tvmaze.com/shows")
-//     .then((response) => response.json())
-//     .then((data) => {
-//       SHOWS = data;
-//       render(getAllShows());
-//     })
-//     .catch((error) => {
-//       console.log("Data hasn't arrive see error: ", error);
-//     });
-// }
+fetch("https://api.tvmaze.com/shows")
+.then((response) => response.json())
+.then((shows) => {
+  const selectShows = document.getElementById('selectShows');
+  shows.forEach((shows) => {
+    selectShows.innerHTML += `<option value="${shows.id}">${shows.name}</option>`;
+  });
+});
+
 // page creation mentions the amount of episodes
 function makePageForEpisodes(episodeList) {
   rootElem.textContent = `Got ${episodeList.length} episode(s)`;
