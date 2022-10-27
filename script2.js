@@ -3,12 +3,21 @@ const rootElem = document.getElementById("root"),
   searchBar = document.getElementById("searchBar"),
   matches = document.getElementById("matches"),
   select = document.getElementById("selectEpisode");
+  shows = document.getElementById("selectShows");
+let SHOWS;
 let EPISODES;
+
 
 // returning data from episode.js with a promise
 const getAllEpisodes = () => {
   return EPISODES;
 };
+
+// returning data from shows.js with a promise
+const getAllShows = () => {
+  return SHOWS;
+}
+
 // fetch API called Receiving data from website
 function setup() {
   fetch("https://api.tvmaze.com/shows/179/episodes")
@@ -21,10 +30,35 @@ function setup() {
       console.log("Data hasn't arrive see error: ", error);
     });
 }
+
+// fetch API called Receiving data from website
+
+// function setup2() {
+//   fetch("https://api.tvmaze.com/shows")
+//     .then((response) => response.json())
+//     .then((data) => {
+//       SHOWS = data;
+//       render(getAllShows());
+//     })
+//     .catch((error) => {
+//       console.log("Data hasn't arrive see error: ", error);
+//     });
+// }
 // page creation mentions the amount of episodes
 function makePageForEpisodes(episodeList) {
   rootElem.textContent = `Got ${episodeList.length} episode(s)`;
 }
+
+// page for amount of shows
+function makePageForShows(showsList) {
+  rootElem.textContent = `Got ${showsList.length} episode(s)`;
+}
+// executes a search for a match between a regular expression and a specified string
+const showsContainsTerm = (shows, showsTerm) => {
+  const inTitle = shows.name,
+    inDescription = shows.summary;
+  return showsTerm.test(inTitle) || showsTerm.test(inDescription);
+};
 // executes a search for a match between a regular expression and a specified string
 const episodeContainsTerm = (episode, searchTerm) => {
   const inTitle = episode.name,
@@ -113,6 +147,12 @@ const selectEpisode = () => {
   console.log(episode);
   window.location.href = `#${episode}`;
 };
+
+const selectShows = () => {
+  let shows = shows.value;
+  console.log(episode);
+  window.location.href = `#${shows}`;
+}
 
 window.onload = () => {
   setup();
